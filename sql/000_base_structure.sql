@@ -123,6 +123,17 @@ CREATE TABLE IF NOT EXISTS `payouts` (
   KEY `account_id` (`account_id`,`completed`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `prices` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `price` double NOT NULL,
+  `time` int(11) NOT NULL,
+  `source` varchar(255) DEFAULT NULL,
+  `bid` double DEFAULT NULL,
+  `ask` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `time` (`time`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Price information for coin';
+
 CREATE TABLE IF NOT EXISTS `pool_worker` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `account_id` int(255) NOT NULL,
