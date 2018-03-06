@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `blocks` (
   `worker_name` varchar(50) DEFAULT 'unknown',
   `shares` bigint(30) unsigned DEFAULT NULL,
   `share_id` bigint(30) DEFAULT NULL,
+  `price` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `height` (`height`,`blockhash`),
   KEY `time` (`time`)
