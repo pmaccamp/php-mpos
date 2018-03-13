@@ -88,7 +88,7 @@ class Statistics extends Base {
         IFNULL(SUM(IF(confirmations > 0 AND FROM_UNIXTIME(time) >= DATE_SUB(now(), INTERVAL 29030400 SECOND), difficulty, 0)), 0) AS 12MonthDifficulty,
         IFNULL(SUM(IF(confirmations > -1 AND FROM_UNIXTIME(time) >= DATE_SUB(now(), INTERVAL 29030400 SECOND), shares, 0)), 0) AS 12MonthShares,
         IFNULL(SUM(IF(confirmations > -1 AND FROM_UNIXTIME(time) >= DATE_SUB(now(), INTERVAL 29030400 SECOND), amount, 0)), 0) AS 12MonthAmount,
-        IFNULL(SUM(IF(confirmations > -1 AND price IS NOT NULL AND FROM_UNIXTIME(time) >= DATE_SUB(now(), INTERVAL 29030400 SECOND), amount * price, 0)), 0) AS 12MonthBTC,
+        IFNULL(SUM(IF(confirmations > -1 AND price IS NOT NULL AND FROM_UNIXTIME(time) >= DATE_SUB(now(), INTERVAL 29030400 SECOND), amount * price, 0)), 0) AS 12MonthBTC
       FROM " . $this->block->getTableName());
     if ($this->checkStmt($stmt) && $stmt->execute() && $result = $stmt->get_result()) {
       $aData = $result->fetch_assoc();
