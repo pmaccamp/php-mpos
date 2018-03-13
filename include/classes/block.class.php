@@ -270,6 +270,7 @@ class Block extends Base {
 
 // Automatically load our class for furhter usage
 $block = new Block();
+$block->setPrices($prices);
 $block->setDebug($debug);
 $block->setMysql($mysqli);
 $block->setConfig($config);
