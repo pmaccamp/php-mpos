@@ -180,7 +180,7 @@ class Block extends Base {
    **/
   public function addBlock($block) {
     $stmt = $this->mysqli->prepare("INSERT INTO $this->table (height, blockhash, confirmations, amount, difficulty, time, price) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    if ($this->checkStmt($stmt) && $stmt->bind_param('isiddi', $block['height'], $block['blockhash'], $block['confirmations'], $block['amount'], $block['difficulty'], $block['time'], $this->prices->getLastPrice()) && $stmt->execute())
+    if ($this->checkStmt($stmt) && $stmt->bind_param('isiddid', $block['height'], $block['blockhash'], $block['confirmations'], $block['amount'], $block['difficulty'], $block['time'], $this->prices->getLastPrice()) && $stmt->execute())
       return true;
     return $this->sqlError();
   }
