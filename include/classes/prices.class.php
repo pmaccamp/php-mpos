@@ -16,7 +16,7 @@ class Block extends Base {
       if(isset($aData) && isset($aData["price"]){
         return $aData["price"];
       } else {
-        return 0.0;
+        return null;
       }
     }
     return $this->sqlError();
