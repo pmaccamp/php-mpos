@@ -59,6 +59,7 @@ require_once(CLASS_DIR . '/mail.class.php');
 require_once(CLASS_DIR . '/tokentype.class.php');
 require_once(CLASS_DIR . '/token.class.php');
 require_once(CLASS_DIR . '/payout.class.php');
+require_once(CLASS_DIR . '/prices.class.php');
 require_once(CLASS_DIR . '/block.class.php');
 
 // We require the block class to properly grab the round ID
