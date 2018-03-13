@@ -76,6 +76,9 @@ class Base {
   public function setPayout($payout) {
     $this->payout = $payout;
   }
+  public function setPrices($prices) {
+    $this->prices = $prices;
+  }
   public function setNotification($notification) {
     $this->notification = $notification;
   }
