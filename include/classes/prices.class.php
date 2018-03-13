@@ -1,7 +1,7 @@
 <?php
 $defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
-class Block extends Base {
+class Prices extends Base {
   protected $table = 'prices';
 
   /**
@@ -13,7 +13,7 @@ class Block extends Base {
     $stmt = $this->mysqli->prepare("SELECT * FROM $this->table ORDER BY height DESC LIMIT 1");
     if ($this->checkStmt($stmt) && $stmt->execute() && $result = $stmt->get_result()) {
       $aData = $result->fetch_assoc();
-      if(isset($aData) && isset($aData["price"]){
+      if(isset($aData) && isset($aData["price"])){
         return $aData["price"];
       } else {
         return null;
