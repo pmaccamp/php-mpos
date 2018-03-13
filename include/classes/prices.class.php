@@ -10,7 +10,7 @@ class Prices extends Base {
    * @return last price as double
    **/
   public function getLastPrice() {
-    $stmt = $this->mysqli->prepare("SELECT * FROM $this->table ORDER BY height DESC LIMIT 1");
+    $stmt = $this->mysqli->prepare("SELECT * FROM $this->table ORDER BY id DESC LIMIT 1");
     if ($this->checkStmt($stmt) && $stmt->execute() && $result = $stmt->get_result()) {
       $aData = $result->fetch_assoc();
       if(isset($aData) && isset($aData["price"])){
