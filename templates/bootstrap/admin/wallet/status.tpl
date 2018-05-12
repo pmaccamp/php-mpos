@@ -16,12 +16,12 @@
           </thead>
           <tbody>
             <tr>
-              <td>{$COININFO.version|default:""}</td>
-              <td>{$COININFO.protocolversion|default:""}</td>
-              <td>{$COININFO.walletversion|default:""}</td>
-              <td>{$COININFO.connections|default:""}</td>
-              <td><font color="{if $COININFO.errors}red{else}green{/if}">{$COININFO.errors|default:"OK"}</font></td>
-              <td>{$COININFO.blocks|default:"0"}</td>
+              <td>{$NETWORKINFO.version|default:""}</td>
+              <td>{$NETWORKINFO.protocolversion|default:""}</td>
+              <td>{$WALLETINFO.walletversion|default:""}</td>
+              <td>{$NETWORKINFO.connections|default:""}</td>
+              <td><font color="{if $MININGINFO.errors}red{else}green{/if}">{$COININFO.errors|default:"OK"}</font></td>
+              <td>{$MININGINFO.blocks|default:"0"}</td>
               <td>{$ADDRESSCOUNT}</td>
             </tr>
             </tbody>

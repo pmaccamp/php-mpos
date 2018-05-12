@@ -8,9 +8,9 @@ if (!$user->isAuthenticated() || !$user->isAdmin($_SESSION['USERDATA']['id'])) {
 }
 
 if ($bitcoin->can_connect() === true){
-  $aGetInfo = $bitcoin->getinfo();
+  $aGetMiningInfo = $bitcoin->getmininginfo();
 } else {
-  $aGetInfo = array('errors' => 'Unable to connect');
+  $aGetMiningInfo = array('errors' => 'Unable to connect');
   $_SESSION['POPUP'][] = array('CONTENT' => 'Unable to connect to wallet RPC service: ' . $bitcoin->can_connect(), 'TYPE' => 'alert alert-danger');
 }
 
@@ -81,7 +81,7 @@ if (!$setting->getValue('disable_invitations')) {
 }
 
 // Wallet status
-$smarty->assign('WALLET_ERROR', $aGetInfo['errors']);
+$smarty->assign('WALLET_ERROR', $aGetMiningInfo['errors']);
 
 // Tempalte specifics
 $smarty->assign('VERSION', $version);

@@ -21,14 +21,16 @@ if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
       $dAccountAddresses[$key] = $bitcoin->getaddressesbyaccount((string)$key);
     }
 
-    $aGetInfo = $bitcoin->getinfo();
+    $aGetMiningInfo = $bitcoin->getmininginfo();
+    $aGetNetworkInfo = $bitcoin->getnetworkinfo();
+    $aGetWalletInfo = $bitcoin->getwalletinfo();
     $aGetPeerInfo = $bitcoin->getpeerinfo();
-    if ($aGetInfo['connections'] == 0) $aGetInfo['errors'] = 'No peers';
+    if ($aGetNetworkInfo['connections'] == 0) $aGetMiningInfo['errors'] = 'No peers';
     # Check if daemon is downloading the blockchain, estimated
-    if ($dDownloadPercentage = $bitcoin->getblockchaindownload()) $aGetInfo['errors'] = "Downloading: $dDownloadPercentage%";
+    if ($dDownloadPercentage = $bitcoin->getblockchaindownload()) $aGetMiningInfo['errors'] = "Downloading: $dDownloadPercentage%";
     $aGetTransactions = $bitcoin->listtransactions('', (int)$setting->getValue('wallet_transaction_limit', 25));
-    if (is_array($aGetInfo) && array_key_exists('newmint', $aGetInfo)) {
-      $dNewmint = $aGetInfo['newmint'];
+    if (is_array($aGetMiningInfo) && array_key_exists('newmint', $aGetMiningInfo)) {
+      $dNewmint = $aGetMiningInfo['newmint'];
     } else {
       $dNewmint = -1;
     }
@@ -36,7 +38,7 @@ if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
     $dWalletAccounts = array();
     $dAddressCount = 0;
     $dAccountAddresses = array();
-    $aGetInfo = array('errors' => 'Unable to connect');
+    $aGetMiningInfo = array('errors' => 'Unable to connect');
     $aGetPeerInfo = array();
     $aGetTransactions = array();
     $dBalance = 0;
@@ -65,7 +67,9 @@ if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
   $smarty->assign("COLDCOINS", $dColdCoins);
   $smarty->assign("LOCKED", $dLockedBalance);
   $smarty->assign("NEWMINT", $dNewmint);
-  $smarty->assign("COININFO", $aGetInfo);
+  $smarty->assign("NETWORKINFO", $aGetNetworkInfo);
+  $smarty->assign("WALLETINFO", $aGetWalletInfo);
+  $smarty->assign("MININGINFO", $aGetMiningInfo);
   $smarty->assign("PEERINFO", $aGetPeerInfo);
   $smarty->assign('PRECISION', $coin->getCoinValuePrevision());
   $smarty->assign("TRANSACTIONS", $aGetTransactions);

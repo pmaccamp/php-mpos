@@ -290,7 +290,7 @@ class BitcoinClient extends jsonRPCClient {
    */
   public function can_connect() {
     try {
-      $r = $this->getinfo();
+      $r = $this->getmininginfo();
     } catch (Exception $e) {
       return $e->getMessage();
     }
@@ -311,7 +311,7 @@ class BitcoinClient extends jsonRPCClient {
 
   public function is_testnet() {
     try {
-      $r = parent::getinfo();
+      $r = parent::getmininginfo();
       if ($r['testnet']) {
         return true;
       }
