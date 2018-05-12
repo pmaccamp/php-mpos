@@ -140,9 +140,9 @@ if ($config['getbalancewithunconfirmed']) {
   $dWalletBalance -= $dBlocksUnconfirmedBalance;
 }
 // Fetch Newmint
-$aGetWalletInfo = $bitcoin->getwalletinfo();
-if (is_array($aGetMiningInfo) && array_key_exists('newmint', $aGetWalletInfo)) {
-  $dWalletBalance += $aGetWalletInfo['newmint'];
+$aGetInfo = $bitcoin->getinfo();
+if (is_array($aGetMiningInfo) && array_key_exists('newmint', $aGetInfo)) {
+  $dWalletBalance += $aGetInfo['newmint'];
 }
 
 // Fetch outstanding auto-payouts

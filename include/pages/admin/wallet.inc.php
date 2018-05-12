@@ -23,7 +23,7 @@ if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
 
     $aGetMiningInfo = $bitcoin->getmininginfo();
     $aGetNetworkInfo = $bitcoin->getnetworkinfo();
-    $aGetWalletInfo = $bitcoin->getwalletinfo();
+    $aGetInfo = $bitcoin->getinfo();
     $aGetPeerInfo = $bitcoin->getpeerinfo();
     if ($aGetNetworkInfo['connections'] == 0) $aGetMiningInfo['errors'] = 'No peers';
     # Check if daemon is downloading the blockchain, estimated
@@ -68,7 +68,7 @@ if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
   $smarty->assign("LOCKED", $dLockedBalance);
   $smarty->assign("NEWMINT", $dNewmint);
   $smarty->assign("NETWORKINFO", $aGetNetworkInfo);
-  $smarty->assign("WALLETINFO", $aGetWalletInfo);
+  $smarty->assign("WALLETINFO", $aGetInfo);
   $smarty->assign("MININGINFO", $aGetMiningInfo);
   $smarty->assign("PEERINFO", $aGetPeerInfo);
   $smarty->assign('PRECISION', $coin->getCoinValuePrevision());
