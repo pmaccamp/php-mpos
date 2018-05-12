@@ -87,7 +87,7 @@ class BitcoinWrapper extends BitcoinClient {
     $this->oDebug->append("STA " . __METHOD__, 4);
     if ($data = $this->memcache->get(__FUNCTION__)) return $data;
     try {
-      $dNetworkHashrate = $bitcoin->getnetworkhashps();
+      $dNetworkHashrate = parent::getnetworkhashps();
     } catch (Exception $e) {
       // getmininginfo does not exist, cache for an hour
       return $this->memcache->setCache(__FUNCTION__, 0, 3600);
