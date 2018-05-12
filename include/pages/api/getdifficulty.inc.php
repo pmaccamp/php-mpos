@@ -8,7 +8,7 @@ $api->isActive();
 $user_id = $api->checkAccess($user->checkApiKey($_REQUEST['api_key']), @$_REQUEST['id']);
 
 // Fetch data from wallet
-$bitcoin->can_connect() === true ? $dDifficulty = $bitcoin->getdifficulty() : $iDifficulty = 1;
+$bitcoin->can_connect() === true ? $dDifficulty = $bitcoin->getmininginfo()["difficulty"] : $iDifficulty = 1;
 
 // Output JSON format
 echo $api->get_json($dDifficulty);

@@ -16,7 +16,7 @@ $aShares['valid'] > 0 ? $dEfficiency = round((100 - (100 / $aShares['valid'] * $
 
 // Fetch RPC data
 if ($bitcoin->can_connect() === true){
-  $dDifficulty = $bitcoin->getdifficulty();
+  $dDifficulty = $bitcoin->getmininginfo()["difficulty"];
   $iBlock = $bitcoin->getblockcount();
   $dNetworkHashrate = $bitcoin->getnetworkhashps();
 } else {

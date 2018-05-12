@@ -3,7 +3,7 @@ $defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 // Fetch data from wallet, always run this check
 if ($bitcoin->can_connect() === true){
-  $dDifficulty = $bitcoin->getdifficulty();
+  $dDifficulty = $bitcoin->getmininginfo()["difficulty"];
   $dNetworkHashrate = $bitcoin->getnetworkhashps();
   $iBlock = $bitcoin->getblockcount();
   is_int($iBlock) && $iBlock > 0 ? $sBlockHash = $bitcoin->getblockhash($iBlock) : $sBlockHash = '';

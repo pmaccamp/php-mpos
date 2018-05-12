@@ -13,7 +13,7 @@ if ($user->isAuthenticated()) {
   $dNetworkHashrate = 1;
   $iBlock = 0;
   if ($bitcoin->can_connect() === true) {
-    $dDifficulty = $bitcoin->getdifficulty();
+    $dDifficulty = $bitcoin->getmininginfo()["difficulty"];
     $dNetworkHashrate = $bitcoin->getnetworkhashps();
     $iBlock = $bitcoin->getblockcount();
   }

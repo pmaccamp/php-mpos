@@ -25,7 +25,7 @@ $username = $user->getUsername($user_id);
 // Fetch RPC information
 if ($bitcoin->can_connect() === true) {
   $dNetworkHashrate = $bitcoin->getnetworkhashps();
-  $dDifficulty = $bitcoin->getdifficulty();
+  $dDifficulty = $bitcoin->getmininginfo()["difficulty"];
   $iBlock = $bitcoin->getblockcount();
 } else {
   $dNetworkHashrate = 0;

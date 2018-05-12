@@ -14,7 +14,7 @@ if (!$aRoundShares = $statistics->getRoundShares()) {
 }
 
 if ($bitcoin->can_connect() === true) {
-  $dDifficulty = $bitcoin->getdifficulty();
+  $dDifficulty = $bitcoin->getmininginfo()["difficulty"];
   $dNetworkHashrate = $bitcoin->getnetworkhashps();
 } else {
   $dDifficulty = 1;
