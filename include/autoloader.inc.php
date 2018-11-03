@@ -2,6 +2,12 @@
 (SECURITY == "*)WT#&YHfd" && SECHASH_CHECK) ? die("public/index.php -> Set a new SECURITY value to continue") : 0;
 $defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
+if (file_exists(INCLUDE_DIR . '/../vendor/autoload.php')) {
+  require_once(INCLUDE_DIR . '/../vendor/autoload.php');
+} else {
+  die("Unable to load vendor libraries, please run `php composer.phar install` in root folder.");
+}
+
 // Default classes
 require_once(INCLUDE_DIR . '/lib/KLogger.php');
 require_once(CLASS_DIR . '/logger.class.php');
@@ -9,6 +15,7 @@ require_once(CLASS_DIR . '/debug.class.php');
 if ($config['mysql_filter']) {
   require_once(CLASS_DIR . '/strict.class.php');
 }
+require_once(INCLUDE_DIR . '/classes/mysqlims.class.php');
 require_once(INCLUDE_DIR . '/database.inc.php');
 require_once(INCLUDE_DIR . '/config/memcache_keys.inc.php');
 require_once(INCLUDE_DIR . '/config/error_codes.inc.php');
