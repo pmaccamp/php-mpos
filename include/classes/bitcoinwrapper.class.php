@@ -20,11 +20,27 @@ class BitcoinWrapper extends BitcoinClient {
   /**
    * Wrap variouns methods to add caching
    **/
-  public function getnetworkinfo() {
+  // Caching this, used for each can_connect call
+  public function getinfo() {
     $this->oDebug->append("STA " . __METHOD__, 4);
     if ($data = $this->memcache->get(__FUNCTION__)) return $data;
-    return $this->memcache->setCache(__FUNCTION__, parent::getnetworkinfo(), 30);
+    try {
+      return $this->memcache->setCache(__FUNCTION__, parent::getnetworkinfo()+parent::getmininginfo()+parent::getwalletinfo(), 30);
+    } catch (Exception $e) {
+      $this->oDebug->append("DEPRECATED : RPC version < 0.16, fallback to `getinfo` RPC call", 2);
+      return $this->memcache->setCache(__FUNCTION__, parent::getinfo(), 30);
+    }
   }
+
+  public function is_testnet() {
+    $this->oDebug->append("STA " . __METHOD__, 4);
+    if ($data = $this->memcache->get(__FUNCTION__)) return $data;
+    if (!(parent::getblockchaininfo()))
+      return $this->memcache->setCache(__FUNCTION__, parent::is_testnet(), 30);
+    else
+      return $this->memcache->setCache(__FUNCTION__, parent::getblockchaininfo()['chain'] == 'test', 30);
+  }
+  
   public function getmininginfo() {
     $this->oDebug->append("STA " . __METHOD__, 4);
     if ($data = $this->memcache->get(__FUNCTION__)) return $data;
@@ -35,6 +51,7 @@ class BitcoinWrapper extends BitcoinClient {
     if ($data = $this->memcache->get(__FUNCTION__)) return $data;
     return $this->memcache->setCache(__FUNCTION__, parent::getwalletinfo(), 30);
   }
+
   public function getblockcount() {
     $this->oDebug->append("STA " . __METHOD__, 4);
     if ($data = $this->memcache->get(__FUNCTION__)) return $data;
@@ -72,7 +89,7 @@ class BitcoinWrapper extends BitcoinClient {
   }
   public function getblockchaindownload() {
     $aPeerInfo = $this->getpeerinfo();
-    $aInfo = $this->getmininginfo();
+    $aInfo = $this->getinfo();
     $iStartingHeight = 0;
     foreach ($aPeerInfo as $aPeerData) {
       if ($iStartingHeight < $aPeerData['startingheight']) $iStartingHeight = $aPeerData['startingheight'];
@@ -87,7 +104,23 @@ class BitcoinWrapper extends BitcoinClient {
     $this->oDebug->append("STA " . __METHOD__, 4);
     if ($data = $this->memcache->get(__FUNCTION__)) return $data;
     try {
-      $dNetworkHashrate = parent::getnetworkhashps();
+      $dNetworkHashrate = $this->getmininginfo();
+      if (is_array($dNetworkHashrate)) {
+        if (array_key_exists('networkhashps', $dNetworkHashrate)) {
+          $dNetworkHashrate = $dNetworkHashrate['networkhashps'];
+        } else if (array_key_exists('networkmhps', $dNetworkHashrate)) {
+          $dNetworkHashrate = $dNetworkHashrate['networkmhps'] * 1000 * 1000;
+        } else if (array_key_exists('networkghps', $dNetworkHashrate)) {
+          $dNetworkHashrate = $dNetworkHashrate['networkghps'] * 1000 * 1000 * 1000;
+        } else if (array_key_exists('hashespersec', $dNetworkHashrate)) {
+          $dNetworkHashrate = $dNetworkHashrate['hashespersec'];
+        } else if (array_key_exists('netmhashps', $dNetworkHashrate)) {
+          $dNetworkHashrate = $dNetworkHashrate['netmhashps'] * 1000 * 1000;
+        } else {
+          // Unsupported implementation
+          $dNetworkHashrate = 0;
+        }
+      }
     } catch (Exception $e) {
       // getmininginfo does not exist, cache for an hour
       return $this->memcache->setCache(__FUNCTION__, 0, 3600);
